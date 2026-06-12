@@ -1,0 +1,2 @@
+Timestamp,Bin ID,Distance (cm),Fill Percentage (%),Status,Temperature (°C),Humidity (%),Gas Level (%),Alert Triggered
+2026-06-12 13:55:24,smartbin_node_1,27.2,11.3,Empty,25.9,61.9,17.8,NO

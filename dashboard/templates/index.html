@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Waste Management & Bin Level Dashboard</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- CSS Style -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon">🗑️</div>
+                <div class="logo-text">
+                    <h2>SmartBin</h2>
+                    <span>IoT Waste Control</span>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="#" class="active" id="nav-dashboard">📊 Dashboard</a>
+                <a href="/download-pdf" target="_blank" class="nav-action">📄 Export PDF Report</a>
+                <a href="/download-csv" target="_blank" class="nav-action">📥 Export CSV Log</a>
+            </nav>
+            <div class="sidebar-footer">
+                <p>Status: <span id="connection-status" class="status-indicator online">Online</span></p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-title">
+                    <h1>Real-time Waste Monitoring Console</h1>
+                    <p>Municipal & Smart Campus Waste Fleet Dashboard</p>
+                </div>
+                <div class="system-time" id="live-time">Loading system time...</div>
+            </header>
+
+            <!-- Grid Layout -->
+            <div class="dashboard-grid">
+                
+                <!-- Main Widget: Fill Level Gauge & Status -->
+                <div class="card fill-gauge-card">
+                    <h3>Bin Fill Level</h3>
+                    <div class="gauge-wrapper">
+                        <!-- SVG Ring Gauge -->
+                        <svg class="progress-ring" width="220" height="220">
+                            <circle class="progress-ring__background" stroke="#2D3748" stroke-width="14" fill="transparent" r="90" cx="110" cy="110" />
+                            <circle class="progress-ring__circle" id="gauge-circle" stroke="#10B981" stroke-width="14" fill="transparent" r="90" cx="110" cy="110" />
+                        </svg>
+                        <div class="gauge-label">
+                            <span id="level-value">0%</span>
+                            <small id="status-badge" class="badge empty">EMPTY</small>
+                        </div>
+                    </div>
+                    <div class="gauge-details">
+                        <div class="detail-item">
+                            <span>Empty Distance:</span>
+                            <strong id="distance-value">30.0 cm</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Odor Level:</span>
+                            <strong id="gas-value">10%</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulation Controls Card -->
+                <div class="card controls-card">
+                    <h3>Simulation Control Panel</h3>
+                    <p class="description">Select a bin state to test the alert logic and local indicators without physical hardware:</p>
+                    <div class="btn-grid">
+                        <button class="btn btn-empty" onclick="setSimMode('empty')">Empty Bin (10%)</button>
+                        <button class="btn btn-half" onclick="setSimMode('half-full')">Half Full (50%)</button>
+                        <button class="btn btn-nearly" onclick="setSimMode('nearly-full')">Nearly Full (80%)</button>
+                        <button class="btn btn-full" onclick="setSimMode('full')">Full / Overflow (95%)</button>
+                        <button class="btn btn-dynamic active" id="btn-dynamic" onclick="setSimMode('dynamic')">Dynamic Filling Mode</button>
+                    </div>
+                    <div class="system-alerts-box" id="notification-box">
+                        <span class="bell-icon">🔔</span>
+                        <div class="alert-content">
+                            <strong>System Status</strong>
+                            <p id="alert-text">Monitoring active. All bins operating normally.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Environmental Telemetry Widgets -->
+                <div class="card env-card">
+                    <h3>Odor & Temperature Metrics</h3>
+                    <div class="env-metrics">
+                        <div class="env-metric-item">
+                            <div class="metric-icon temp">🌡️</div>
+                            <div class="metric-info">
+                                <span class="label">Temperature</span>
+                                <span class="value" id="temp-value">25.0 °C</span>
+                            </div>
+                        </div>
+                        <div class="env-metric-item">
+                            <div class="metric-icon hum">💧</div>
+                            <div class="metric-info">
+                                <span class="label">Humidity</span>
+                                <span class="value" id="humidity-value">60.0 %</span>
+                            </div>
+                        </div>
+                        <div class="env-metric-item">
+                            <div class="metric-icon gas">💨</div>
+                            <div class="metric-info">
+                                <span class="label">MQ-135 Gas Output</span>
+                                <span class="value" id="gas-indicator">Low Odor</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real-time Level Trend Chart -->
+                <div class="card chart-card">
+                    <h3>Fill Percentage & Gas Levels (Live Trend)</h3>
+                    <div class="chart-container">
+                        <canvas id="liveTrendChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    
+    <!-- JS Logic -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
